@@ -72,6 +72,17 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
 
     // Memoize persona configurations to prevent recreation
     const personaConfigs = useMemo(() => ({
+        genaral: {
+            title: "General Hub",
+            subtitle: "Personal Organization",
+            icon: Home,
+            menuItems: [
+                { title: "Home", icon: Home, href: "/genaral/home" },
+                { title: "Resources", icon: FileStack, href: "/genaral/resources" },
+                { title: "Folders", icon: Folder, href: "/genaral/folders" },
+                { title: "Study Sets", icon: BookOpen, href: "/genaral/study-sets" },
+            ]
+        },
         student: {
             title: "Student Hub",
             subtitle: "Learning & Study",
@@ -122,13 +133,13 @@ export default function Sidebar({ isMobileMenuOpen, setIsMobileMenuOpen }) {
         }
     }), []); // Memoize persona configs
 
-    const config = personaConfigs[currentPersona] || personaConfigs.student;
+    const config = personaConfigs[currentPersona] || personaConfigs.genaral;
     const PersonaIcon = config.icon;
 
     // Memoize persona options to prevent recreation
     const personaOptions = useMemo(() => {
         return userPersonas.map(persona => {
-            const config = personaConfigs[persona.personaType] || personaConfigs.student;
+            const config = personaConfigs[persona.personaType] || personaConfigs.genaral;
             return {
                 key: persona.personaType,
                 label: persona.customName || config.title.replace(' Hub', ''),

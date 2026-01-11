@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth } from "../../../../context/AuthContext.jsx";
-import { Register } from "../../shared/api/apiClient";
+import { authAPI } from "../../../../shared/api";
 import { useNavigate } from "react-router-dom";
 export default function Signup() {
   const { login } = useAuth();
@@ -10,7 +10,6 @@ export default function Signup() {
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [initialPersona, setInitialPersona] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
   const handleSubmit = async (e) => {
@@ -18,9 +17,9 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const res = await Register({ firstName, lastName, email, password, initialPersona: initialPersona || undefined });
+      const res = await authAPI.register({ firstName, lastName, email, password, initialPersona: "genaral" });
       login(res.user, res.token);
-      navigate("/student/home");
+      navigate("/genaral/home");
     } catch (err) {
       alert(err.message);
     } finally {
@@ -54,17 +53,6 @@ export default function Signup() {
           <div>
             <label className="block text-xs text-zinc-600 mb-1">Password</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full border border-zinc-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400" placeholder="SecurePass123!" required />
-          </div>
-          <div>
-            <label className="block text-xs text-zinc-600 mb-1">Persona <span className="text-zinc-400">(optional)</span></label>
-            <select value={initialPersona} onChange={e => setInitialPersona(e.target.value)} className="w-full border border-zinc-200 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400">
-              <option value="">Select persona</option>
-              <option value="student">Student</option>
-              <option value="creator">Creator</option>
-              <option value="entrepreneur">Entrepreneur</option>
-              <option value="professional">Professional</option>
-              <option value="researcher">Researcher</option>
-            </select>
           </div>
           <button disabled={loading} type="submit" className="w-full bg-zinc-900 text-white rounded px-3 py-2 font-medium hover:bg-zinc-800 transition-colors mt-2">{loading ? 'Signing up...' : 'Sign up'}</button>
         </form>

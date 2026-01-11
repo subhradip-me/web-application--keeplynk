@@ -204,43 +204,43 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-end" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="bg-white w-full rounded-t-[28px] max-h-[92vh] overflow-y-auto shadow-2xl border-t border-zinc-100">
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-end" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="bg-white w-full rounded-t-3xl max-h-[92vh] overflow-y-auto shadow-2xl">
         {/* Drag Handle */}
-        <div className="flex justify-center pt-3 pb-2">
-          <div className="w-10 h-1 bg-zinc-300 rounded-full"></div>
+        <div className="flex justify-center pt-4 pb-2">
+          <div className="w-12 h-1.5 bg-zinc-300 rounded-full"></div>
         </div>
         
-        <div className="px-6 pb-2 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-zinc-900">Add Resource</h2>
-          <button onClick={onClose} className="p-1.5 hover:bg-zinc-100 rounded-lg active:scale-95 transition-all">
-            <X size={20} className="text-zinc-400" />
+        <div className="px-5 pb-3 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-zinc-900">Add Resource</h2>
+          <button onClick={onClose} className="p-2 hover:bg-zinc-100 rounded-lg active:scale-95 transition-all">
+            <X size={22} className="text-zinc-500" strokeWidth={2} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-6 py-4 space-y-4">
+        <form onSubmit={handleSubmit} className="px-5 py-4 space-y-5">
           {/* Type Selector */}
           <div>
-            <label className="block text-sm font-medium text-zinc-600 mb-2">Type</label>
-            <div className="flex gap-2">
+            <label className="block text-sm font-semibold text-zinc-700 mb-2.5">Type</label>
+            <div className="flex gap-2.5">
               <button
                 type="button"
                 onClick={() => setType('url')}
-                className={`flex-1 py-2 px-3.5 rounded-md text-sm transition-all ${
+                className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all ${
                   type === 'url' 
-                    ? 'bg-zinc-100 text-zinc-900' 
-                    : 'bg-white text-zinc-500 hover:bg-zinc-50'
+                    ? 'bg-zinc-600 text-white' 
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 active:scale-[0.98]'
                 }`}
               >
-                URL
+                URL Link
               </button>
               <button
                 type="button"
                 onClick={() => setType('document')}
-                className={`flex-1 py-2 px-3.5 rounded-md text-sm transition-all ${
+                className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all ${
                   type === 'document' 
-                    ? 'bg-zinc-100 text-zinc-900' 
-                    : 'bg-white text-zinc-500 hover:bg-zinc-50'
+                    ? 'bg-zinc-600 text-white' 
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 active:scale-[0.98]'
                 }`}
               >
                 Document
@@ -256,7 +256,7 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Untitled"
-              className="w-full px-3.5 py-2.5 bg-zinc-50 border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-zinc-900 text-base placeholder:text-zinc-400 transition-all"
+              className="w-full px-3.5 py-2.5 bg-zinc-50 border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-zinc-400 text-base placeholder:text-zinc-400 transition-all"
               required
             />
           </div>
@@ -264,15 +264,15 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
           {/* URL or File */}
           {type === 'url' ? (
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-zinc-600">URL</label>
+              <div className="flex items-center justify-between mb-2.5">
+                <label className="block text-sm font-semibold text-zinc-700">URL</label>
                 <button
                   type="button"
                   onClick={handleAIFill}
                   disabled={!url.trim() || isAIFilling}
-                  className="flex items-center gap-1 px-2 py-0.5 text-xs text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 rounded disabled:opacity-40 transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-md disabled:opacity-40 transition-all active:scale-95"
                 >
-                  <Sparkles size={12} className={isAIFilling ? 'animate-pulse' : ''} />
+                  <Sparkles size={14} className={isAIFilling ? 'animate-pulse' : ''} strokeWidth={2} />
                   Auto-fill
                 </button>
               </div>
@@ -281,17 +281,17 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="w-full px-3.5 py-2.5 bg-zinc-50 border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-zinc-900 text-base placeholder:text-zinc-400 transition-all"
+                className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:outline-none focus:bg-white focus:border-zinc-400 text-sm placeholder:text-zinc-400 transition-all"
                 required
               />
             </div>
           ) : (
             <div>
-              <label className="block text-sm font-medium text-zinc-600 mb-2">File</label>
+              <label className="block text-sm font-semibold text-zinc-700 mb-2.5">File</label>
               <input
                 type="file"
                 onChange={(e) => setFile(e.target.files[0])}
-                className="w-full px-3.5 py-2.5 bg-zinc-50 border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-zinc-900 text-sm transition-all file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-zinc-900 file:text-white file:cursor-pointer"
+                className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:outline-none focus:bg-white focus:border-zinc-400 text-sm transition-all file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-zinc-600 file:text-white file:cursor-pointer hover:file:bg-zinc-700"
                 required
               />
             </div>
@@ -299,19 +299,19 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-zinc-600 mb-2">Description</label>
+            <label className="block text-sm font-semibold text-zinc-700 mb-2.5">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Add a description..."
-              className="w-full px-3.5 py-2.5 bg-zinc-50 border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-zinc-900 resize-none text-base placeholder:text-zinc-400 transition-all"
+              className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:outline-none focus:bg-white focus:border-zinc-400 resize-none text-sm placeholder:text-zinc-400 transition-all"
               rows={3}
             />
           </div>
 
           {/* Tags */}
           <div>
-            <label className="block text-sm font-medium text-zinc-600 mb-2">Tags</label>
+            <label className="block text-sm font-semibold text-zinc-700 mb-2.5">Tags</label>
             
             {/* Selected Tags */}
             <div className="flex flex-wrap gap-2 mb-2">
@@ -320,9 +320,9 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
                 return (
                   <span
                     key={tagName}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-sm transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
                     style={{
-                      backgroundColor: tagData?.color ? `${tagData.color}15` : '#F4F4F5',
+                      backgroundColor: tagData?.color ? `${tagData.color}20` : '#F4F4F5',
                       color: tagData?.color || '#52525B'
                     }}
                   >
@@ -332,7 +332,7 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
                       onClick={() => handleRemoveTag(tagName)}
                       className="hover:opacity-60 transition-opacity"
                     >
-                      <X size={14} strokeWidth={2} />
+                      <X size={14} strokeWidth={2.5} />
                     </button>
                   </span>
                 )
@@ -343,9 +343,9 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
                 <button
                   type="button"
                   onClick={() => setShowTagInput(true)}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-sm bg-white border border-dashed border-zinc-300 text-zinc-400 hover:border-zinc-400 hover:text-zinc-600 transition-all"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-white border-2 border-dashed border-zinc-300 text-zinc-500 hover:border-zinc-400 hover:text-zinc-700 hover:bg-zinc-50 transition-all active:scale-95"
                 >
-                  <span className="text-sm">+</span>
+                  <span className="text-base font-bold">+</span>
                   Add tag
                 </button>
               ) : (
@@ -427,20 +427,20 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
           </div>
 
           {/* Actions */}
-          <div className="flex gap-2.5 pt-2">
+          <div className="flex gap-3 pt-3">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-2.5 px-4 bg-white border border-zinc-200 text-zinc-600 rounded-lg hover:bg-zinc-50 transition-colors text-sm"
+              className="flex-1 py-3 px-4 bg-zinc-100 border border-zinc-200 text-zinc-700 font-medium rounded-xl hover:bg-zinc-200 transition-all text-sm active:scale-[0.98]"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-2.5 px-4 bg-zinc-900 text-white rounded-lg disabled:opacity-50 hover:bg-zinc-800 transition-all text-sm"
+              className="flex-1 py-3 px-4 bg-zinc-700 text-white font-medium rounded-xl disabled:opacity-50 hover:bg-zinc-600 transition-all text-sm active:scale-[0.98]"
             >
-              {loading ? 'Saving...' : 'Save'}
+              {loading ? 'Saving...' : 'Save Resource'}
             </button>
           </div>
         </form>

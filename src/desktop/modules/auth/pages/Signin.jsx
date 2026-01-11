@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from "../../../../context/AuthContext.jsx";
-import { Login } from "../../shared/api/apiClient";
+import { authAPI } from "../../../../shared/api";
 import { useNavigate } from "react-router-dom";
 
 export default function Signin() {
@@ -16,10 +16,10 @@ export default function Signin() {
     setLoading(true);
 
     try {
-      const res = await Login({ email, password });
+      const res = await authAPI.login({ email, password });
 
       login(res.user, res.token);
-      navigate("/student/home");
+      navigate("/genaral/home");
     } catch (err) {
       alert(err.message);
     } finally {

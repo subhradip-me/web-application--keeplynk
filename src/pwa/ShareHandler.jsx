@@ -31,7 +31,7 @@ export default function ShareHandler() {
       } catch (err) {
         console.error('Share handling failed', err)
       } finally {
-        navigate('/student/resources') // or inbox/dashboard
+        navigate('/genaral/resources') // or inbox/dashboard
       }
     }
 

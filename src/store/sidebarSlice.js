@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isCollapsed: false,
-  currentPersona: 'student',
+  currentPersona: 'genaral',
   activeItem: 'Home',
   expandedItems: {},
   showPersonaDropdown: false,
@@ -11,7 +11,7 @@ const initialState = {
     email: 'john@example.com'
   },
   userPersonas: [
-    { personaType: 'student', customName: null },
+    { personaType: 'genaral', customName: null },
     { personaType: 'professional', customName: null },
   ]
 };

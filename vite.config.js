@@ -2,6 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import tailwindcss from '@tailwindcss/vite'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export default defineConfig({
     server: {
@@ -11,6 +14,7 @@ export default defineConfig({
       'localhost',
       '.ngrok-free.dev'
     ]
+    
   },
 
   plugins: [

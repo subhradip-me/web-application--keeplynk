@@ -37,6 +37,25 @@ api.interceptors.request.use((config => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  
+  // Add persona header - determine from URL path
+  const currentPath = window.location.pathname;
+  let persona = 'student'; // Default to student
+  
+  if (currentPath.includes('/student/')) {
+    persona = 'student';
+  } else if (currentPath.includes('/professional/')) {
+    persona = 'professional';
+  } else if (currentPath.includes('/researcher/')) {
+    persona = 'researcher';
+  } else if (currentPath.includes('/creator/')) {
+    persona = 'creator';
+  } else if (currentPath.includes('/entrepreneur/')) {
+    persona = 'entrepreneur';
+  }
+  
+  config.headers['X-Persona'] = persona;
+  
   return config;
 }));
 

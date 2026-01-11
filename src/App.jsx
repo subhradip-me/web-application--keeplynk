@@ -7,19 +7,22 @@ import DesktopLayout from "./desktop/modules/core/components/DesktopLayout";
 
 import Signin from "./desktop/modules/auth/pages/Signin";
 import Signup from "./desktop/modules/auth/pages/Signup";
+import MobileSignin from "./mobile/modules/auth/pages/Signin";
+import MobileSignup from "./mobile/modules/auth/pages/Signup";
 //desktop persona pages
-import Home from "./desktop/modules/personas/student/pages/Home";
-import Folders from "./desktop/modules/personas/student/pages/Folders";
-import FolderDetail from "./desktop/modules/personas/student/pages/FolderDetail";
-import Resources from "./desktop/modules/personas/student/pages/Resources";
-import StudySets from "./desktop/modules/personas/student/pages/StudySets";
+import Home from "./desktop/modules/personas/genaral/pages/Home";
+import Folders from "./desktop/modules/personas/genaral/pages/Folders";
+import FolderDetail from "./desktop/modules/personas/genaral/pages/FolderDetail";
+import Resources from "./desktop/modules/personas/genaral/pages/Resources";
+import StudySets from "./desktop/modules/personas/genaral/pages/StudySets";
 
 //mobile screen detection
 import MobileLayout from "./mobile/modules/core/components/MobileLayout";
-import MobileHome from "./mobile/modules/personas/student/pages/Home";
-import MobileFolders from "./mobile/modules/personas/student/pages/Folders";
-import MobileFolder from "./mobile/modules/personas/student/pages/Folder";
-import MobileResources from "./mobile/modules/personas/student/pages/Resources";
+import MobileHome from "./mobile/modules/personas/genaral/pages/Home";
+import MobileFolders from "./mobile/modules/personas/genaral/pages/Folders";
+import MobileFolder from "./mobile/modules/personas/genaral/pages/Folder";
+import MobileResources from "./mobile/modules/personas/genaral/pages/Resources";
+import MobileSettings from "./mobile/modules/core/pages/Settings";
 
 function useScreen() {
   const [isMobile, setIsMobile] = React.useState(window.innerWidth < 1024);
@@ -40,16 +43,15 @@ export default function App() {
   if (isMobile) {
     return (
       <Routes>
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/share" element={<ShareHandler />} />
-        
+        <Route path="/signin" element={<MobileSignin />} />
+        <Route path="/signup" element={<MobileSignup />} />
+        <Route path="/share" element={<ShareHandler />} />        <Route path="/settings" element={<MobileSettings />} />        
         <Route element={<MobileLayout />}>
           <Route path="/" element={<MobileHome />} />
-          <Route path="/student/home" element={<MobileHome />} />
-          <Route path="/student/folders" element={<MobileFolders />} />
-          <Route path="/student/folders/:folderId" element={<MobileFolder />} />
-          <Route path="/student/resources" element={<MobileResources />} />
+          <Route path="/genaral/home" element={<MobileHome />} />
+          <Route path="/genaral/folders" element={<MobileFolders />} />
+          <Route path="/genaral/folders/:folderId" element={<MobileFolder />} />
+          <Route path="/genaral/resources" element={<MobileResources />} />
         </Route>
       </Routes>
     );
@@ -78,11 +80,11 @@ export default function App() {
           }
         />
 
-        <Route path="/student/home" element={<Home />} />
-        <Route path="/student/resources" element={<Resources />} />
-        <Route path="/student/folders" element={<Folders />} />
-        <Route path="/student/folders/:folderId" element={<FolderDetail />} />
-        <Route path="/student/study-sets" element={<StudySets />} />
+        <Route path="/genaral/home" element={<Home />} />
+        <Route path="/genaral/resources" element={<Resources />} />
+        <Route path="/genaral/folders" element={<Folders />} />
+        <Route path="/genaral/folders/:folderId" element={<FolderDetail />} />
+        <Route path="/genaral/study-sets" element={<StudySets />} />
       </Route>
     </Routes>
   );
