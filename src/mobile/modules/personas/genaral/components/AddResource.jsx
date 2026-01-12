@@ -140,31 +140,70 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Validate required fields
+    if (!title || !title.trim()) {
+      alert('Title is required')
+      return
+    }
+    
+    if (type === 'url' && (!url || !url.trim())) {
+      alert('URL is required')
+      return
+    }
+    
+    if (type === 'document' && !file) {
+      alert('File is required')
+      return
+    }
+    
     setLoading(true)
 
     try {
       let response
       
       if (type === 'url') {
-        response = await apiClient.post('/resources', {
+        // Prepare URL resource data - match desktop version structure
+        let resourceData = {
           type: 'url',
-          title,
-          url,
-          description,
-          tags: selectedTags,
-          persona: 'student'
-        })
+          url: url.trim(),
+          title: title.trim()
+        }
+        
+        if (description && description.trim()) {
+          resourceData.description = description.trim()
+        }
+        
+        if (selectedTags && selectedTags.length > 0) {
+          resourceData.tags = selectedTags
+        }
+        
+        resourceData.isFavorite = false
+        
+        console.log('Sending URL resource data:', resourceData)
+        response = await apiClient.post('/resources', resourceData)
       } else {
+        // Prepare document upload - match desktop version structure
         const formData = new FormData()
-        formData.append('type', 'document')
-        formData.append('title', title)
-        formData.append('description', description)
         formData.append('file', file)
-        formData.append('persona', 'student')
-        selectedTags.forEach(tag => formData.append('tags[]', tag))
+        formData.append('type', 'document')
+        formData.append('title', title.trim())
+        
+        if (description && description.trim()) {
+          formData.append('description', description.trim())
+        }
+        
+        if (selectedTags && selectedTags.length > 0) {
+          formData.append('tags', JSON.stringify(selectedTags))
+        }
+        
+        formData.append('isFavorite', 'false')
 
-        response = await apiClient.post('/resources', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
+        console.log('Uploading document...')
+        response = await apiClient.post('/resources/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         })
       }
 
@@ -253,7 +292,7 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
             <label className="block text-sm font-medium text-zinc-600 mb-2">Title</label>
             <input
               type="text"
-              value={title}
+              value={title || ''}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Untitled"
               className="w-full px-3.5 py-2.5 bg-zinc-50 border border-transparent rounded-lg focus:outline-none focus:bg-white focus:border-zinc-400 text-base placeholder:text-zinc-400 transition-all"
@@ -278,7 +317,7 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
               </div>
               <input
                 type="url"
-                value={url}
+                value={url || ''}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com"
                 className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:outline-none focus:bg-white focus:border-zinc-400 text-sm placeholder:text-zinc-400 transition-all"
@@ -301,7 +340,7 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
           <div>
             <label className="block text-sm font-semibold text-zinc-700 mb-2.5">Description</label>
             <textarea
-              value={description}
+              value={description || ''}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Add a description..."
               className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:outline-none focus:bg-white focus:border-zinc-400 resize-none text-sm placeholder:text-zinc-400 transition-all"
@@ -353,7 +392,7 @@ export default function AddResource({ isOpen, onClose, onResourceCreated }) {
                   <input
                     ref={tagInputRef}
                     type="text"
-                    value={tagInput}
+                    value={tagInput || ''}
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyDown={handleAddTag}
                     onBlur={() => {

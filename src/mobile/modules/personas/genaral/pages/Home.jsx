@@ -9,13 +9,6 @@ import AutoOrganiseButton from '../components/AutoOrganiseButton'
 import apiClient from '../../../shared/api/apiClient'
 
 export default function Home() {
-  const [isUnorganizedExpanded, setIsUnorganizedExpanded] = useState(true)
-  const [isRecentExpanded, setIsRecentExpanded] = useState(false)
-
-  // Action menu state
-  const [actionMenuOpen, setActionMenuOpen] = useState(null)
-  const [menuPosition, setMenuPosition] = useState({ top: 0, bottom: 'auto' })
-
   // Data state
   const [unorganizedResources, setUnorganizedResources] = useState([])
   const [recentResources, setRecentResources] = useState([])
@@ -26,11 +19,27 @@ export default function Home() {
   const [tags, setTags] = useState([])
   const [tagMap, setTagMap] = useState({})
 
+  // UI state
+  const [isUnorganizedExpanded, setIsUnorganizedExpanded] = useState(true)
+  const [isRecentExpanded, setIsRecentExpanded] = useState(false)
+
+  // Action menu state
+  const [actionMenuOpen, setActionMenuOpen] = useState(null)
+  const [menuPosition, setMenuPosition] = useState({ top: 0, bottom: 'auto' })
+
   // Modal state
   const [modal, setModal] = useState(null)
   const [showEditModal, setShowEditModal] = useState(false)
   const [editingResource, setEditingResource] = useState(null)
   const [folderMenuOpen, setFolderMenuOpen] = useState(null)
+
+  // Auto-expand Recent section if Unorganized is empty
+  useEffect(() => {
+    if (!loading && unorganizedResources.length === 0) {
+      setIsRecentExpanded(true)
+      setIsUnorganizedExpanded(false)
+    }
+  }, [unorganizedResources, loading])
 
   // Close action menu on outside click
   useEffect(() => {
